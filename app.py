@@ -14,7 +14,7 @@ df = load_dataset(large_dataset_path)
 
 langs = st.selectbox(
     "language of interest",
-    df['primary_language'].unique()
+    df['language'].unique()
 )
 
 st.write(langs)
