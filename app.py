@@ -2,15 +2,17 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 
-large_dataset_path = "./datasets/repository_data.csv"
+dataset_path = "./datasets/repository_data.csv"
+dataset_url = "https://raw.githubusercontent.com/LeoLi1223/Beacon/main/datasets/github_dataset.csv"
+
 
 @st.cache_data
 def load_dataset(filepath):
     df = pd.read_csv(filepath)
     return df
 
-# df1 = load_dataset(small_dataset_path)
-df = load_dataset(large_dataset_path)
+
+df = load_dataset(dataset_url)
 
 langs = st.selectbox(
     "language of interest",
