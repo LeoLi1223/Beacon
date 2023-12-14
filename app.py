@@ -37,7 +37,7 @@ is_ascending = st.checkbox(
 )
 
 result_df = search_by_lang(df, lang, sort_by, is_ascending)
-st.dataframe(data=result_df)
+st.dataframe(data=result_df.reset_index(drop=True, inplace=True))
 
 # search system
 # search option: 
