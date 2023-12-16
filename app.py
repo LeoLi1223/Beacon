@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 import streamlit as st
 
 dataset_url = "https://raw.githubusercontent.com/LeoLi1223/Beacon/main/datasets/github_dataset.csv"
