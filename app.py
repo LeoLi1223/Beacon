@@ -18,7 +18,7 @@ def search(df, lang=None, keyword=None):
         df = search_by_lang(df, lang)
     return df
 
-def search_by_lang(df, lang)
+def search_by_lang(df, lang):
     result = result[result['language']==lang]
     if result.shape[0] < 10:
         return result
