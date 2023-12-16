@@ -12,20 +12,21 @@ def load_dataset(filepath):
 
 
 def search(df, lang=None, keyword=None):
+    result = df.copy()
     if keyword is not None:
-        df = search_by_keyword(df, keyword)
+        result = search_by_keyword_(result, keyword)
     if lang is not None:
-        df = search_by_lang(df, lang)
+        result = search_by_lang_(result, lang)
     return df
 
-def search_by_lang(df, lang):
+def search_by_lang_(df, lang):
     result = df[df['language']==lang]
     if result.shape[0] < 10:
         return result
     else:
         return result.head(10)
 
-def search_by_keyword(df, keyword):
+def search_by_keyword_(df, keyword):
     def filter(name):
         if keyword.lower() in name.lower():
             return name
@@ -36,7 +37,24 @@ def search_by_keyword(df, keyword):
     df.dropna(inplace=True)
     return df
 
+# draw pie chart
+def draw_piechart(df):
+    lang_serires = df['language'].copy()
+    cnts = lang_serires.where(lang_serires!='Unknown').dropna().value_counts()
+    langs = np.array(cnts.index)
+    cnts = np.array(cnts)
+    other_cnts = np.sum(cnts[5:])
+    cnts = np.array([cnts[0], cnts[1], cnts[2], cnts[3], cnts[4], other_cnts])
+    cnts = cnts / np.sum(cnts) * 100
+    langs = np.array([langs[0], langs[1], langs[2], langs[3], langs[4], "other"])
+    fig_pie, ax_pie = plt.subplots()
+    ax_pie.pie(cnts, labels=langs, autopct="%1.1f%%")
+    return fig_pie, ax_pie
+
 df = load_dataset(dataset_url)
+
+st.write("### Overview")
+st.pyplot(draw_piechart(df)[0])
 
 keyword = st.text_input(
     "Searching keyword",
@@ -76,5 +94,3 @@ st.dataframe(
 # search option: 
 #   - keyword (text input)
 #   - language (selectbox)
-# sort option: stars, forks, issues, pull_requests, contributors (selectbox)
-# if sorting, enable ascending checkbox
