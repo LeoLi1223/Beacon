@@ -43,23 +43,23 @@ keyword = st.text_input(
     placeholder='python'
 )
 
+lang_list = df['language'].dropna().unique()
 lang = st.selectbox(
     "language of interest",
-    df['language'].unique()
+    lang_list,
 )
 
 result_df = search(df, lang=lang, keyword=keyword)
 result_df.reset_index(drop=True, inplace=True)
 st.dataframe(
     data=result_df,
-    width=800,
     column_config={
         "repositories": st.column_config.TextColumn(
             "repo name",
             width='medium',
         ),
         "stars_count": st.column_config.NumberColumn(
-            "Stars",
+            "stars",
             format="%d ⭐",
         ),
         "forks_count": "forks",
