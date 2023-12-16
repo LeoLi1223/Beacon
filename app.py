@@ -9,22 +9,20 @@ dataset_url = "https://raw.githubusercontent.com/LeoLi1223/Beacon/main/datasets/
 def load_dataset(filepath):
     df = pd.read_csv(filepath)
     df.drop_duplicates(inplace=True)
+    df['language'].fillna("Unknown", inplace=True)
     return df
 
 def search(df, lang=None, keyword=None):
-    result = df.copy()
+    # result = df.copy()
     if keyword is not None:
-        result = search_by_keyword_(result, keyword)
+        df = search_by_keyword_(df, keyword)
     if lang is not None:
-        result = search_by_lang_(result, lang)
+        df = search_by_lang_(df, lang)
     return df
 
 def search_by_lang_(df, lang):
     result = df[df['language']==lang]
-    if result.shape[0] < 10:
-        return result
-    else:
-        return result.head(10)
+    return result
 
 def search_by_keyword_(df, keyword):
     def filter(name):
@@ -65,7 +63,6 @@ lang_list = df['language'].dropna().unique()
 lang = st.selectbox(
     "language of interest",
     lang_list,
-    placeholder='choose an option'
 )
 
 result_df = search(df, lang=lang, keyword=keyword)
@@ -74,8 +71,8 @@ st.dataframe(
     data=result_df,
     column_config={
         "repositories": st.column_config.TextColumn(
-            "repo name",
-            width='medium',
+            "repository name",
+            width='large',
         ),
         "stars_count": st.column_config.NumberColumn(
             "stars",
