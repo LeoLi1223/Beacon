@@ -50,7 +50,22 @@ lang = st.selectbox(
 
 result_df = search(df, lang=lang, keyword=keyword)
 result_df.reset_index(drop=True, inplace=True)
-st.dataframe(data=result_df)
+st.dataframe(
+    data=result_df,
+    column_config={
+        "repositories": "repo name",
+        "stars_count": st.column_config.NumberColumn(
+            "Stars",
+            format="%d ⭐",
+        ),
+        "forks_count": "forks",
+        "issues_count": "issues",
+        "pull_requests": "pull requests",
+        "contributors": "contributors",
+        "language": "language",
+    },
+    hide_index=True,
+)
 
 # search system
 # search option: 
