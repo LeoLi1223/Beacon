@@ -52,10 +52,11 @@ result_df = search(df, lang=lang, keyword=keyword)
 result_df.reset_index(drop=True, inplace=True)
 st.dataframe(
     data=result_df,
+    width=800,
     column_config={
         "repositories": st.column_config.TextColumn(
             "repo name",
-            width='large',
+            width='medium',
         ),
         "stars_count": st.column_config.NumberColumn(
             "Stars",
