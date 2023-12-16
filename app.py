@@ -55,6 +55,7 @@ st.dataframe(
     column_config={
         "repositories": st.column_config.TextColumn(
             "repo name",
+            width='large',
         ),
         "stars_count": st.column_config.NumberColumn(
             "Stars",
