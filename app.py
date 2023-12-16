@@ -47,6 +47,7 @@ lang_list = df['language'].dropna().unique()
 lang = st.selectbox(
     "language of interest",
     lang_list,
+    placeholder='choose an option'
 )
 
 result_df = search(df, lang=lang, keyword=keyword)
