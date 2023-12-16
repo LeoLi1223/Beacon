@@ -53,7 +53,7 @@ result_df.reset_index(drop=True, inplace=True)
 st.dataframe(
     data=result_df,
     column_config={
-        "repositories": st.column_config.NumberColumn(
+        "repositories": st.column_config.TextColumn(
             "repo name",
         ),
         "stars_count": st.column_config.NumberColumn(
