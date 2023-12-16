@@ -53,7 +53,9 @@ result_df.reset_index(drop=True, inplace=True)
 st.dataframe(
     data=result_df,
     column_config={
-        "repositories": "repo name",
+        "repositories": st.column_config.NumberColumn(
+            "repo name",
+        ),
         "stars_count": st.column_config.NumberColumn(
             "Stars",
             format="%d ⭐",
