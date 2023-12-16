@@ -10,33 +10,45 @@ def load_dataset(filepath):
     df.drop_duplicates(inplace=True)
     return df
 
-# repo of {language} sorted by {stars/forks/issues/pull/contributors} in ascending/descending
-def search_by_lang(df, lang, sorted_key, ascending=True):
-    result = df.sort_values(sorted_key, ascending=ascending)
-    result = result[['repositories', sorted_key, 'language']]
+
+def search(df, lang=None, keyword=None):
+    if keyword is not None:
+        df = search_by_keyword(df, keyword)
+    if lang is not None:
+        df = search_by_lang(df, lang)
+    return df
+
+def search_by_lang(df, lang)
     result = result[result['language']==lang]
     if result.shape[0] < 10:
         return result
     else:
         return result.head(10)
 
+def search_by_keyword(df, keyword):
+    def filter(name):
+        if keyword.lower() in name.lower():
+            return name
+        else:
+            return None
+    
+    df['repositories'] = df['repositories'].apply(filter)
+    df.dropna(inplace=True)
+    return df
+
 df = load_dataset(dataset_url)
+
+keyword = st.text_input(
+    "Searching keyword",
+    placeholder='python'
+)
 
 lang = st.selectbox(
     "language of interest",
     df['language'].unique()
 )
 
-sort_by = st.selectbox(
-    "sorted by",
-    df.select_dtypes(include='int').columns
-)
-
-is_ascending = st.checkbox(
-    'ascending'
-)
-
-result_df = search_by_lang(df, lang, sort_by, is_ascending)
+result_df = search(df, lang=lang, keyword=keyword)
 result_df.reset_index(drop=True, inplace=True)
 st.dataframe(data=result_df)
 
